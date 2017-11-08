@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import app.ewtc.masterung.rmutsvservice.MainActivity;
 import app.ewtc.masterung.rmutsvservice.R;
@@ -116,6 +117,18 @@ public class RegisterFragment extends Fragment{
                     userString, passwordString, myConstant.getUrlPostData());
             String result = uploadNewUser.get();
             Log.d(tag, "Result ==> " + result);
+
+            if (Boolean.parseBoolean(result)) {
+//                Success Upload
+                getActivity().getSupportFragmentManager().popBackStack();
+                Toast.makeText(getActivity(),
+                        "Success UpDate User", Toast.LENGTH_SHORT).show();
+
+            } else {
+//                Error Upload
+                Toast.makeText(getActivity(),
+                        "Cannot UpDate User", Toast.LENGTH_SHORT).show();
+            }
 
         } catch (Exception e) {
             Log.d(tag, "e ==> " + e.toString());

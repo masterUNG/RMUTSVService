@@ -7,6 +7,7 @@ package app.ewtc.masterung.rmutsvservice.utility;
 public class MyConstant {
 
     private String urlPostData = "http://androidthai.in.th/rmuts/addDataMaster.php";
+    //private String urlPostData = "http://androidthai.in.th/rmuts/addDataDee.php";
 
     public String getUrlPostData() {
         return urlPostData;

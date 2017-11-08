@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,8 @@ import android.widget.RadioGroup;
 import app.ewtc.masterung.rmutsvservice.MainActivity;
 import app.ewtc.masterung.rmutsvservice.R;
 import app.ewtc.masterung.rmutsvservice.utility.MyAlert;
+import app.ewtc.masterung.rmutsvservice.utility.MyConstant;
+import app.ewtc.masterung.rmutsvservice.utility.UploadNewUser;
 
 /**
  * Created by masterung on 7/11/2017 AD.
@@ -93,13 +96,31 @@ public class RegisterFragment extends Fragment{
 
                 } else {
 //                    Choosed Choice
-
+                    uploadUserToServer();
                 }
 
 
 
             }   // onClick
         });
+    }
+
+    private void uploadUserToServer() {
+
+        String tag = "8novV1";
+        try {
+
+            MyConstant myConstant = new MyConstant();
+            UploadNewUser uploadNewUser = new UploadNewUser(getActivity());
+            uploadNewUser.execute(nameString, categoryString,
+                    userString, passwordString, myConstant.getUrlPostData());
+            String result = uploadNewUser.get();
+            Log.d(tag, "Result ==> " + result);
+
+        } catch (Exception e) {
+            Log.d(tag, "e ==> " + e.toString());
+        }
+
     }
 
     private void toolbarController() {

@@ -98,6 +98,7 @@ public class MainFragment extends Fragment{
 
             }   // for
 
+
             if (userABoolean) {
                 MyAlert myAlert = new MyAlert(getActivity());
                 myAlert.myDialog("User False",

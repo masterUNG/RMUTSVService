@@ -1,5 +1,6 @@
 package app.ewtc.masterung.rmutsvservice.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -16,6 +17,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import app.ewtc.masterung.rmutsvservice.R;
+import app.ewtc.masterung.rmutsvservice.SalerActivity;
 import app.ewtc.masterung.rmutsvservice.utility.GetAllData;
 import app.ewtc.masterung.rmutsvservice.utility.MyAlert;
 import app.ewtc.masterung.rmutsvservice.utility.MyConstant;
@@ -107,6 +109,19 @@ public class MainFragment extends Fragment{
 
                 Toast.makeText(getActivity(), "Welcome " + userStrings1[1],
                         Toast.LENGTH_SHORT).show();
+
+                if (userStrings1[2].equals("Saler")) {
+                    //Saler
+
+                    Intent intent = new Intent(getActivity(), SalerActivity.class);
+                    intent.putExtra("Login", userStrings1);
+                    getActivity().startActivity(intent);
+
+                } else {
+                    //Buyer
+
+                }
+
 
             } else {
 

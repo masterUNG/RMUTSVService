@@ -1,20 +1,25 @@
 package app.ewtc.masterung.rmutsvservice.fragment;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import app.ewtc.masterung.rmutsvservice.MyServiceActivity;
 import app.ewtc.masterung.rmutsvservice.R;
+import app.ewtc.masterung.rmutsvservice.utility.DeleteData;
 import app.ewtc.masterung.rmutsvservice.utility.GetAllData;
 import app.ewtc.masterung.rmutsvservice.utility.ListViewAdapter;
 import app.ewtc.masterung.rmutsvservice.utility.MyConstant;
@@ -64,7 +69,7 @@ public class ServiceFragment extends Fragment {
 
             JSONArray jsonArray = new JSONArray(resultJSON);
 
-            String[] nameStrings = new String[jsonArray.length()];
+            final String[] nameStrings = new String[jsonArray.length()];
             String[] catStrings = new String[jsonArray.length()];
             String[] userStrings = new String[jsonArray.length()];
             String[] passwordStrings = new String[jsonArray.length()];
@@ -84,11 +89,58 @@ public class ServiceFragment extends Fragment {
                     nameStrings, catStrings, userStrings, passwordStrings);
             listView.setAdapter(listViewAdapter);
 
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int i, long id) {
+                    confirmDialog(nameStrings[i]);
+                }
+            });
+
 
         } catch (Exception e) {
             e.printStackTrace();
         }
 
+
+    }
+
+    private void confirmDialog(final String nameString) {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setCancelable(false);
+        builder.setIcon(R.drawable.ic_action_alert);
+        builder.setTitle("You Choose " + nameString);
+        builder.setMessage("What do you want ?");
+        builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                deleteDataWhere(nameString);
+                dialog.dismiss();
+            }
+        });
+        builder.show();
+
+    }
+
+    private void deleteDataWhere(String nameString) {
+
+        try {
+
+            MyConstant myConstant = new MyConstant();
+            DeleteData deleteData = new DeleteData(getActivity());
+            deleteData.execute(nameString, myConstant.getUrlDeleteData());
+
+            if (Boolean.parseBoolean(deleteData.get())) {
+                Toast.makeText(getActivity(), "Delete Success", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getActivity(), "Delete Error", Toast.LENGTH_SHORT).show();
+            }
+
+            createListView();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 

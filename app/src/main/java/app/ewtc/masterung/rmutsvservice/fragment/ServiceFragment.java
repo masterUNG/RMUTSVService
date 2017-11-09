@@ -118,6 +118,14 @@ public class ServiceFragment extends Fragment {
                 dialog.dismiss();
             }
         });
+
+        builder.setNegativeButton("Edit", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
         builder.show();
 
     }

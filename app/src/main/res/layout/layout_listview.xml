@@ -6,6 +6,7 @@
 
     <!--Name-->
     <TextView
+        android:id="@+id/txtName"
         android:textColor="#1f4ee9"
         android:layout_margin="10dp"
         android:textStyle="bold"
@@ -29,6 +30,7 @@
 
             <!--Category-->
             <TextView
+                android:id="@+id/txtCategory"
                 android:textColor="#e22f2f"
                 android:textStyle="bold"
                 android:layout_marginLeft="10dp"
@@ -47,6 +49,7 @@
             android:layout_height="wrap_content">
 
             <TextView
+                android:id="@+id/txtUser"
                 android:textColor="#6e2fe2"
                 android:textStyle="bold"
                 android:layout_marginLeft="10dp"
@@ -56,6 +59,7 @@
                 android:layout_height="wrap_content" />
 
             <TextView
+                android:id="@+id/txtPassword"
                 android:textColor="#16bc2f"
                 android:textStyle="italic"
                 android:layout_marginLeft="10dp"

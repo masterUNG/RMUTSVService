@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <!--Name-->
+    <TextView
+        android:textColor="#1f4ee9"
+        android:layout_margin="10dp"
+        android:textStyle="bold"
+        android:textSize="@dimen/h1"
+        android:text="@string/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <!--Detail-->
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!--Lift-->
+        <LinearLayout
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!--Category-->
+            <TextView
+                android:textColor="#e22f2f"
+                android:textStyle="bold"
+                android:layout_marginLeft="10dp"
+                android:textSize="@dimen/h2"
+                android:text="Category :"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+        <!--Right-->
+        <LinearLayout
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:textColor="#6e2fe2"
+                android:textStyle="bold"
+                android:layout_marginLeft="10dp"
+                android:textSize="@dimen/h2"
+                android:text="@string/user"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:textColor="#16bc2f"
+                android:textStyle="italic"
+                android:layout_marginLeft="10dp"
+                android:textSize="@dimen/h2"
+                android:text="@string/password"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</LinearLayout>

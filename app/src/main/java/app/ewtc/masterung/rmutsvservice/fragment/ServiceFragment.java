@@ -8,15 +8,22 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import app.ewtc.masterung.rmutsvservice.MyServiceActivity;
 import app.ewtc.masterung.rmutsvservice.R;
+import app.ewtc.masterung.rmutsvservice.utility.GetAllData;
+import app.ewtc.masterung.rmutsvservice.utility.ListViewAdapter;
+import app.ewtc.masterung.rmutsvservice.utility.MyConstant;
 
 /**
  * Created by masterung on 9/11/2017 AD.
  */
 
-public class ServiceFragment extends Fragment{
+public class ServiceFragment extends Fragment {
 
     public static ServiceFragment serviceInstance(String[] strings) {
 
@@ -38,12 +45,56 @@ public class ServiceFragment extends Fragment{
 //        Create Toolbar
         createToolbar(strings[1]);
 
+//        Create ListView
+        createListView();
+
+    }
+
+    private void createListView() {
+
+        ListView listView = getView().findViewById(R.id.livUser);
+        MyConstant myConstant = new MyConstant();
+
+        try {
+
+            GetAllData getAllData = new GetAllData(getActivity());
+            getAllData.execute(myConstant.getUrlGetAllUser());
+            String resultJSON = getAllData.get();
+            Log.d("9novV1", "JSON ==> " + resultJSON);
+
+            JSONArray jsonArray = new JSONArray(resultJSON);
+
+            String[] nameStrings = new String[jsonArray.length()];
+            String[] catStrings = new String[jsonArray.length()];
+            String[] userStrings = new String[jsonArray.length()];
+            String[] passwordStrings = new String[jsonArray.length()];
+
+            for (int i = 0; i < jsonArray.length(); i += 1) {
+
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+
+                nameStrings[i] = jsonObject.getString("Name");
+                catStrings[i] = jsonObject.getString("Category");
+                userStrings[i] = jsonObject.getString("User");
+                passwordStrings[i] = jsonObject.getString("Password");
+
+            }   // for
+
+            ListViewAdapter listViewAdapter = new ListViewAdapter(getActivity(),
+                    nameStrings, catStrings, userStrings, passwordStrings);
+            listView.setAdapter(listViewAdapter);
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
 
     }
 
     private void createToolbar(String strTitle) {
         Toolbar toolbar = getView().findViewById(R.id.toolbarService);
-        ((MyServiceActivity)getActivity()).setSupportActionBar(toolbar);
+        ((MyServiceActivity) getActivity()).setSupportActionBar(toolbar);
         ((MyServiceActivity) getActivity()).getSupportActionBar().setTitle(strTitle);
         ((MyServiceActivity) getActivity()).getSupportActionBar().setSubtitle("Who Loged");
     }

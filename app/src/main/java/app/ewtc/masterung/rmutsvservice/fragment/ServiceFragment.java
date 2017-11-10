@@ -70,9 +70,9 @@ public class ServiceFragment extends Fragment {
             JSONArray jsonArray = new JSONArray(resultJSON);
 
             final String[] nameStrings = new String[jsonArray.length()];
-            String[] catStrings = new String[jsonArray.length()];
-            String[] userStrings = new String[jsonArray.length()];
-            String[] passwordStrings = new String[jsonArray.length()];
+            final String[] catStrings = new String[jsonArray.length()];
+            final String[] userStrings = new String[jsonArray.length()];
+            final String[] passwordStrings = new String[jsonArray.length()];
 
             for (int i = 0; i < jsonArray.length(); i += 1) {
 
@@ -92,7 +92,8 @@ public class ServiceFragment extends Fragment {
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int i, long id) {
-                    confirmDialog(nameStrings[i]);
+                    confirmDialog(nameStrings[i], catStrings[i],
+                            userStrings[i], passwordStrings[i]);
                 }
             });
 
@@ -104,7 +105,15 @@ public class ServiceFragment extends Fragment {
 
     }
 
-    private void confirmDialog(final String nameString) {
+    private void confirmDialog(final String nameString,
+                               final String catString,
+                               final String userString,
+                               final String passwordString) {
+
+        Log.d("11novV1", "Name[confirmDialog] ==> " + nameString);
+        Log.d("11novV1", "Cat[confirmDialog] ==> " + catString);
+        Log.d("11novV1", "User[confirmDialog] ==> " + userString);
+        Log.d("11novV1", "Password[confirmDialog] ==> " + passwordString);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setCancelable(false);
@@ -122,9 +131,20 @@ public class ServiceFragment extends Fragment {
         builder.setNegativeButton("Edit", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+
+                getActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.contentServiceFragment, EditFragment.editInstance(
+                                nameString,
+                                catString,
+                                userString,
+                                passwordString))
+                        .addToBackStack(null).commit();
+
                 dialog.dismiss();
             }
         });
+
 
         builder.show();
 
@@ -140,11 +160,11 @@ public class ServiceFragment extends Fragment {
 
             if (Boolean.parseBoolean(deleteData.get())) {
                 Toast.makeText(getActivity(), "Delete Success", Toast.LENGTH_SHORT).show();
+                createListView();
             } else {
                 Toast.makeText(getActivity(), "Delete Error", Toast.LENGTH_SHORT).show();
             }
 
-            createListView();
 
         } catch (Exception e) {
             e.printStackTrace();

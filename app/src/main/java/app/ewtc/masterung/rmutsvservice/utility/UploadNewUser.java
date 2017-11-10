@@ -13,7 +13,7 @@ import com.squareup.okhttp.Response;
  * Created by masterung on 8/11/2017 AD.
  */
 
-public class UploadNewUser extends AsyncTask<String, Void, String>{
+public class UploadNewUser extends AsyncTask<String, Void, String> {
 
     private Context context;
 

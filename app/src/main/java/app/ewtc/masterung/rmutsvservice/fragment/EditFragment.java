@@ -9,10 +9,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RadioButton;
+import android.widget.Toast;
 
 import app.ewtc.masterung.rmutsvservice.MyServiceActivity;
 import app.ewtc.masterung.rmutsvservice.R;
+import app.ewtc.masterung.rmutsvservice.utility.MyConstant;
+import app.ewtc.masterung.rmutsvservice.utility.UploadNewUser;
 
 /**
  * Created by masterung on 10/11/2017 AD.
@@ -21,6 +25,8 @@ import app.ewtc.masterung.rmutsvservice.R;
 public class EditFragment extends Fragment {
 
     private String nameString, catString, userString, passwordString;
+    private EditText nameEditText, userEditText, passwordEditText;
+    private RadioButton buyerRadioButton, salerRadioButton;
 
     public static EditFragment editInstance(String nameString,
                                             String catString,
@@ -59,6 +65,53 @@ public class EditFragment extends Fragment {
 //        Create Toolbar
         createToolbar();
 
+//        Save Controller
+        saveController();
+
+    }
+
+    private void saveController() {
+        ImageView imageView = getView().findViewById(R.id.imvSave);
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                nameString = nameEditText.getText().toString().trim();
+                userString = userEditText.getText().toString().trim();
+                passwordString = passwordEditText.getText().toString().trim();
+
+                if (buyerRadioButton.isChecked()) {
+                    catString = "Buyer";
+                }
+
+                if (salerRadioButton.isChecked()) {
+                    catString = "Saler";
+                }
+
+                editNewValue();
+
+
+            }
+        });
+    }
+
+    private void editNewValue() {
+        try {
+
+            MyConstant myConstant = new MyConstant();
+            UploadNewUser uploadNewUser = new UploadNewUser(getActivity());
+            uploadNewUser.execute(nameString, catString, userString,
+                    passwordString, myConstant.getUrlEditData());
+
+            if (Boolean.parseBoolean(uploadNewUser.get())) {
+                getActivity().getSupportFragmentManager().popBackStack();
+            } else {
+                Toast.makeText(getActivity(), "Cannot Edit Data", Toast.LENGTH_SHORT).show();
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void createToolbar() {
@@ -78,8 +131,8 @@ public class EditFragment extends Fragment {
     }
 
     private void showClick() {
-        RadioButton buyerRadioButton = getView().findViewById(R.id.radBuyer);
-        RadioButton salerRadioButton = getView().findViewById(R.id.radSaler);
+        buyerRadioButton = getView().findViewById(R.id.radBuyer);
+        salerRadioButton = getView().findViewById(R.id.radSaler);
 
         if (catString.equals("Buyer")) {
             buyerRadioButton.setChecked(true);
@@ -90,9 +143,9 @@ public class EditFragment extends Fragment {
     }
 
     private void showText() {
-        EditText nameEditText = getView().findViewById(R.id.edtName);
-        EditText userEditText = getView().findViewById(R.id.edtUser);
-        EditText passwordEditText = getView().findViewById(R.id.edtPassword);
+        nameEditText = getView().findViewById(R.id.edtName);
+        userEditText = getView().findViewById(R.id.edtUser);
+        passwordEditText = getView().findViewById(R.id.edtPassword);
 
         nameEditText.setText(nameString);
         userEditText.setText(userString);
